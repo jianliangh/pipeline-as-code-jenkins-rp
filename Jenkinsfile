@@ -48,15 +48,29 @@ pipeline {
                  sh 'mvn install -Dmaven.test.skip=false'
             }
         }
-
-
-        stage('Printing All Global Variables') {
-            steps {
-                sh """
-                env
-                """
-            }
+        
+        stage('Environment Analysis'){
+        	parallel {
+            	stage('Printing All Global Variables'){
+            		steps {
+            			sh """
+            			env
+            			"""
+            		}
+            	}
+        
+            	stage('Execute Shell'){
+            		steps {
+            			sh 'echo "Hello Student. Thanks for keeping up!"'
+            		}
+            	}
+        
+            	stage('Print ENV variable'){
+            		steps {
+            			sh "echo ${APP_ENV}"
+            		}
+            	}
+        	}
         }
-
-    }   
+}   
 }
